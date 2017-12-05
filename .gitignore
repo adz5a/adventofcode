@@ -1,0 +1,6 @@
+# generated files
+out
+# compiled files
+dist
+
+node_modules
