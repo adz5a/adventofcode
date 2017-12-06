@@ -1,6 +1,7 @@
 (ns adventofcode.core
-  (:require [cljs.nodejs :as nodejs]))
+  (:require [cljs.nodejs :as nodejs]
+            [adventofcode.sixth]))
 
 (nodejs/enable-util-print!)
 
-(println "lol")
+(println (adventofcode.sixth/solution))
