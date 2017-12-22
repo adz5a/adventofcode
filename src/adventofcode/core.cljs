@@ -37,4 +37,32 @@
 (def sol1 (reduce +
                   (map process input)))
 
-(println sol1)
+
+(defn is-divisible [[h & rest]]
+  (mod (last rest) h))
+
+
+
+(defn get-row-value [sorted-row]
+  (loop [h (first sorted-row)
+         remain (rest sorted-row)]
+
+    (let [values? (filter #(zero? (mod % h)) remain)
+          found? (first values?)
+          q? (when (number? found?)
+               (quot found? h))]
+
+      (if q?
+        q?
+        (recur (first remain)
+               (rest remain))))))
+
+
+
+(def process2 (reduce + (map (comp
+                               get-row-value
+                               (partial apply
+                                        vector)
+                               sort) input)))
+
+(println process2)
