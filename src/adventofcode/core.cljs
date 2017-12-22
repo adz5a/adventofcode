@@ -538,4 +538,14 @@
                  1)]
     (apply + values)))
 
-(println (solution1))
+; (println (solution1))
+
+
+;; part 2
+
+(defn is-valid [row]
+  (let [row-as-set (set (map set row))]
+    (= (count row)
+       (count row-as-set))))
+
+(println (count (filter is-valid input)))
