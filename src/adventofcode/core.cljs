@@ -1068,6 +1068,11 @@
 (defn offset [position offset-vector]
   (nth offset-vector position))
 
+(defn update-offset [offset]
+  (if (<= 3 offset)
+    (dec offset)
+    (inc offset)))
+
 (defn solution1 []
   (loop [offset-vector input
          position 0
@@ -1081,4 +1086,19 @@
                next-position
                (inc jump-count))))))
 
-(println (solution1))
+; (println (solution1))
+
+(defn solution2 []
+  (loop [offset-vector input
+         position 0
+         jump-count 0]
+    ; (print position)
+    (if (or (< position 0)
+            (>= position max-pos))
+      jump-count
+      (let [next-position (+ position (offset position offset-vector))]
+        (recur (update offset-vector position update-offset)
+               next-position
+               (inc jump-count))))))
+
+(println (solution2))
