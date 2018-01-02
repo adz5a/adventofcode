@@ -1,11 +1,29 @@
 (ns adventofcode.core
   (:require [cljs.nodejs :as nodejs]
+            [lumo.io :refer [slurp]]
+            [clojure.string :refer [split]]
             [cljs.test :refer-macros [deftest
                                       is
                                       testing
                                       run-tests]]))
 
 (nodejs/enable-util-print!)
+
+(defn toVector [line]
+  (let [[model transform] (split line " => ")]
+    [(apply vector (map #(apply vector (split % ""))
+                        (split model "/")))
+     (apply vector (map #(apply vector (split % ""))
+                        (split transform "/")))]))
+
+(def rules (as-> (slurp "src/adventofcode/rules.txt") v
+                (split v "\n")
+                (map toVector v)
+                (reduce #(conj %1  [(first %2)
+                                    (second %2)]) {} v)))
+
+(println rules)
+
 (defn flip [pattern]
   ;; pattern [l1 l2]
  (let [lines (apply map vector pattern)]
@@ -13,7 +31,6 @@
                            (reverse)
                            (apply vector)) lines))))
 
-(nodejs/enable-util-print!)
 
 (deftest test:flip
   (is (= [
@@ -42,7 +59,7 @@
 
   (is (=
        [[4 3]
-        [3 4]]
+        [2 1]]
        (flip [
               [3 1]
               [4 2]
